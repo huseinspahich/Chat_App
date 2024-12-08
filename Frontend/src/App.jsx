@@ -1,14 +1,18 @@
-import React from 'react'
-import {Box, ChakraProvider} from '@chakra-ui/react'
+import React from 'react';
+import { BrowseRouter as Router, Routes, Route } from 'react-router-dom';
+import ChatBox from './components/ChatBox.jsx';
+import JoinBox from './components/JoinBox.jsx';
 
 const App = () => {
   return (
-    <ChakraProvider>
-      <Box w="100vw" px={5} >
-        <ChatBox />
-      </Box>
-    </ChakraProvider>
-  )
-}
+    <>
+    <Router>
+      <Route path="/" element={<JoinBox />} />
+      <Route path="/chat" element={<ChatBox />} />
+    </Router>
+        
+    </>
+  );
+};
 
-export default App
+export default App;
