@@ -1,17 +1,16 @@
 import React from 'react';
-import { BrowseRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ChatBox from './components/ChatBox.jsx';
 import JoinBox from './components/JoinBox.jsx';
 
 const App = () => {
   return (
-    <>
     <Router>
-      <Route path="/" element={<JoinBox />} />
-      <Route path="/chat" element={<ChatBox />} />
+      <Routes>
+        <Route path="/" element={<JoinBox />} />
+        <Route path="/chat" element={<ChatBox />} />
+      </Routes>
     </Router>
-        
-    </>
   );
 };
 
