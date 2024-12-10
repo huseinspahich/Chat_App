@@ -3,22 +3,21 @@ import queryString from 'query-string';
 import io from 'socket.io-client';
 
 const ChatBox = () => {
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [room, setRoom] = useState('');
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState('');
 
   const ENDPOINT = 'http://localhost:3000';
 
   useEffect(() => {
-    const { username, room } = queryString.parse(window.location.search);
-
+    const { name, room } = queryString.parse(window.location.search);
     const socket = io(ENDPOINT);
-
-    setUsername(username);
+    setName(name);
     setRoom(room);
 
-    socket.emit("join", {username,room});
-
-    console.log(username, room);
+    socket.emit("join", {name,room}); 
+    console.log(name, room);
 
     return () => {
       socket.emit("disconnect");
@@ -26,6 +25,11 @@ const ChatBox = () => {
     }
   }, [ENDPOINT, window.location.search]);
 
+  useEffect(()=> {
+    socket.on("message",(message) => {
+      setMessages([...messages, message]);
+    })
+  })
 
 
   return (

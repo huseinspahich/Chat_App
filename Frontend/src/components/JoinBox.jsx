@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const JoinBox = () => {
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [room, setRoom] = useState('');
 
   return (
@@ -18,10 +18,10 @@ const JoinBox = () => {
           </label>
           <input
             type="text"
-            id="username"
+            id="name"
             className="w-full mt-2 p-4 border border-gray-700 bg-gray-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
             placeholder="Enter your username"
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
 
@@ -38,7 +38,7 @@ const JoinBox = () => {
           />
         </div>
 
-        <Link onClick={(e) => { if (!username || !room) {e.preventDefault();}}}  to={`/chat?username=${username}&room=${room}`}>
+        <Link onClick={(e) => { if (!name || !room) {e.preventDefault();}}}  to={`/chat?username=${name}&room=${room}`}>
           <button
             type="submit"
             className="w-full py-3 bg-yellow-500 text-gray-900 font-semibold rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500">
