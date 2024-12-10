@@ -1,14 +1,20 @@
 import React,{useEffect, useState} from 'react'
 import queryString from 'query-string';
 import io from 'socket.io-client';
+import InfoBox from './InfoBox.jsx';
+import InputBox from './InputBox.jsx';
+
+let socket;
 
 const ChatBox = () => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
-  const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState('');
+  const [message, setMessage] = useState([]);
+  const [messages, setMessages] = useState([]);
 
   const ENDPOINT = 'http://localhost:3000';
+   
+  
 
   useEffect(() => {
     const { name, room } = queryString.parse(window.location.search);
@@ -20,22 +26,33 @@ const ChatBox = () => {
     console.log(name, room);
 
     return () => {
-      socket.emit("disconnect");
+      socket.disconnect()
       socket.off();
     }
   }, [ENDPOINT, window.location.search]);
 
   useEffect(()=> {
+    const socket = io(ENDPOINT);
     socket.on("message",(message) => {
-      setMessages([...messages, message]);
+      setMessages((prevMessages) => [...prevMessages, message]);
     })
-  })
+  },[messages])
+
+  const sendMessage = (e) => {
+    e.preventDefault();
+    if(message) {
+      socket.emit("sendMessage", message, () => setMessage(""));
+    }
+  }
 
 
   return (
     <div>
-      <h1>ChatBox</h1>
+       <InfoBox room={room} />
+       <InputBox message={message} setMessage={setMessage} sendMessage={sendMessage}/>
     </div>
+         
+
   )
 }
 
